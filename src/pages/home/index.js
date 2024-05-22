@@ -5,7 +5,7 @@ import Header from "../../components/Header";
 export default function Home() {
   return (
     <View style={styles.container}>
-      <Header />
+      <Header name="João"/>
       <Text>O TATA É FOTA</Text>
 
       <StatusBar style="auto" />
