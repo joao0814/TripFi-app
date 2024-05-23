@@ -5,8 +5,9 @@ import Movements from '../../components/Movements';
 import Balance from '../../components/Balance';
 import CategoryModal from '../../components/CategoryModal';
 import CustomButton from '../../components/Button';
+import CategoryItem from '../../components/CategoryItem';
 
-const list = [
+const initialMovements = [
   {
     id: 1,
     title: 'Hotel Rio Branco',
@@ -32,9 +33,13 @@ const list = [
 
 const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [movements, setMovements] = useState(initialMovements);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const handleOpenModal = () => {
+    setSelectedCategory(null);
     setIsModalVisible(true);
   };
 
@@ -43,18 +48,41 @@ const Home = () => {
   };
 
   const handleCreateCategory = (newCategory) => {
-    setCategories([...categories, newCategory]);
+    if (selectedCategory) {
+      // Editing existing category
+      const updatedCategories = categories.map((category) =>
+        category.id === newCategory.id ? newCategory : category
+      );
+      setCategories(updatedCategories);
+    } else {
+      // Creating new category
+      setCategories([...categories, newCategory]);
+    }
     handleCloseModal();
+  };
+
+  const handleOpenEditModal = (category) => {
+    setSelectedCategory(category);
+    setIsModalVisible(true);
+  };
+
+  const handleDeleteCategory = (categoryId) => {
+    const updatedCategories = categories.filter((category) => category.id !== categoryId);
+    setCategories(updatedCategories);
   };
 
   return (
     <View style={styles.container}>
       <Header name="João" />
-      <Balance saldo="15.820.52" gastos="- 250" />
+      <Balance saldo="15.820,52" gastos="- 250" />
 
       <CustomButton title="Criar Categoria" onPress={handleOpenModal} />
-
-      <CategoryModal visible={isModalVisible} onClose={handleCloseModal} onCreate={handleCreateCategory} />
+      <CategoryModal
+        visible={isModalVisible}
+        onClose={handleCloseModal}
+        onCreate={handleCreateCategory}
+        initialCategory={selectedCategory}
+      />
 
       <Text style={styles.title}>Categorias</Text>
       <FlatList
@@ -62,16 +90,18 @@ const Home = () => {
         data={categories}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View style={styles.categoryItem}>
-            <Text>{item.name}</Text>
-          </View>
+          <CategoryItem
+            category={item}
+            onEdit={handleOpenEditModal}
+            onDelete={handleDeleteCategory}
+          />
         )}
       />
 
       <Text style={styles.title}>Suas últimas movimentações</Text>
       <FlatList
         style={styles.list}
-        data={list}
+        data={movements}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => <Movements item={item} />}
@@ -95,11 +125,6 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingHorizontal: 14,
-  },
-  categoryItem: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
   },
 });
 
