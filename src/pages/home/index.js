@@ -1,14 +1,15 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import Header from "../../components/Header";
+import Balance from "../../components/balance";
 
 export default function Home() {
   return (
     <View style={styles.container}>
-      <Header name="João"/>
-      <Text>O TATA É FOTA</Text>
+      <Header name="João" />
 
-      <StatusBar style="auto" />
+      <Balance saldo="15.820.52" gastos="250" />
+      
     </View>
   );
 }
