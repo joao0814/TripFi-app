@@ -1,104 +1,109 @@
-// AddExpenseModal.js
-import React, { useState } from 'react';
-import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState } from "react";
+import { Modal, View, TextInput, Button, StyleSheet, Text, FlatList, TouchableOpacity } from "react-native";
 
-const AddExpenseModal = ({ visible, onClose, onSave, categories }) => {
-    const [title, setTitle] = useState('');
-    const [value, setValue] = useState('');
-    const [date, setDate] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState('');
+const AddExpenseModal = ({ visible, onClose, onCreate, categories }) => {
+    const [title, setTitle] = useState("");
+    const [value, setValue] = useState("");
+    const [date, setDate] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
-    const handleSave = () => {
-        if (title && value && date && selectedCategory) {
-            onSave({ title, value, date, category: selectedCategory });
-            onClose();
-        } else {
-            alert('Please fill all fields');
-        }
+    const handleCreateExpense = () => {
+        // Aqui você pode adicionar validações para garantir que os campos sejam preenchidos corretamente
+        // Por exemplo, verificar se o valor é um número válido e se a data está no formato correto
+        // Se tudo estiver correto, você pode chamar a função onCreate para criar a despesa
+        onCreate({ title, value, date, category: selectedCategory });
+        // Limpar os campos após a criação da despesa
+        setTitle("");
+        setValue("");
+        setDate("");
+        setSelectedCategory(null);
     };
 
+    const renderCategoryItem = ({ item }) => (
+        <TouchableOpacity
+            style={[styles.categoryItem, selectedCategory === item.id && styles.selectedCategory]}
+            onPress={() => setSelectedCategory(item.id)}
+        >
+            <Text>{item.name}</Text>
+        </TouchableOpacity>
+    );
+
     return (
-        <Modal visible={visible} animationType="slide" transparent={true}>
-            <View style={styles.modalContainer}>
-                <View style={styles.modalView}>
-                    <Text style={styles.modalTitle}>Add Expense</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Title"
-                        value={title}
-                        onChangeText={setTitle}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Value"
-                        value={value}
-                        onChangeText={setValue}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Date"
-                        value={date}
-                        onChangeText={setDate}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Category"
-                        value={selectedCategory}
-                        onChangeText={setSelectedCategory}
-                    />
-                    <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-                        <Text style={styles.saveButtonText}>Save</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-                        <Text style={styles.closeButtonText}>Close</Text>
-                    </TouchableOpacity>
-                </View>
+        <Modal visible={visible} animationType="slide">
+            <View style={styles.container}>
+                <Text style={styles.title}>Criar Despesa</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Título"
+                    value={title}
+                    onChangeText={setTitle}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Valor"
+                    keyboardType="numeric"
+                    value={value}
+                    onChangeText={setValue}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Data (DD/MM/AAAA)"
+                    keyboardType="numeric"
+                    value={date}
+                    onChangeText={setDate}
+                />
+                <Text style={styles.categoryTitle}>Selecione uma categoria:</Text>
+                <FlatList
+                    data={categories}
+                    renderItem={renderCategoryItem}
+                    keyExtractor={(item) => item.id.toString()}
+                    style={styles.categoryList}
+                />
+                <Button title="Criar" onPress={handleCreateExpense} />
+                <Button title="Cancelar" onPress={onClose} />
             </View>
         </Modal>
     );
 };
 
 const styles = StyleSheet.create({
-    modalContainer: {
+    container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#fff",
     },
-    modalView: {
-        width: 300,
-        padding: 20,
-        backgroundColor: '#fff',
-        borderRadius: 10,
-        alignItems: 'center',
-    },
-    modalTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 10,
+    title: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginBottom: 20,
     },
     input: {
-        width: '100%',
+        borderWidth: 1,
+        borderColor: "#ccc",
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10,
+        width: "80%",
+    },
+    categoryTitle: {
+        fontSize: 16,
+        marginBottom: 10,
+    },
+    categoryList: {
+        width: "80%",
+        maxHeight: 200,
+        marginBottom: 10,
+    },
+    categoryItem: {
         padding: 10,
         borderWidth: 1,
-        borderColor: '#ccc',
+        borderColor: "#ccc",
         borderRadius: 5,
-        marginBottom: 10,
+        marginBottom: 5,
     },
-    saveButton: {
-        backgroundColor: '#007AFF',
-        padding: 10,
-        borderRadius: 5,
-        marginBottom: 10,
-    },
-    saveButtonText: {
-        color: '#fff',
-    },
-    closeButton: {
-        padding: 10,
-    },
-    closeButtonText: {
-        color: '#007AFF',
+    selectedCategory: {
+        backgroundColor: "#007AFF",
     },
 });
 

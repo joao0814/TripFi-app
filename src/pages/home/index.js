@@ -6,7 +6,8 @@ import Balance from "../../components/Balance";
 import CategoryModal from "../../components/CategoryModal";
 import Button from "../../components/Button";
 import CategoryItem from "../../components/CategoryItem";
-import AddExpenseModal from "../../components/AddExpenseModal"; // Import the new modal
+import AddExpenseModal from "../../components/AddExpenseModal";
+import EditExpenseModal from "../../components/EditExpenseModal";
 
 const initialMovements = [
   {
@@ -35,10 +36,11 @@ const initialMovements = [
 const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  const [isAddExpenseModalVisible, setIsAddExpenseModalVisible] = useState(false); // State for Add Expense Modal
+  const [isAddExpenseModalVisible, setIsAddExpenseModalVisible] = useState(false);
   const [categories, setCategories] = useState([]);
   const [movements, setMovements] = useState(initialMovements);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedExpense, setSelectedExpense] = useState(null);
 
   const handleOpenModal = () => {
     setSelectedCategory(null);
@@ -91,7 +93,29 @@ const Home = () => {
     handleCloseAddExpenseModal();
   };
 
-  // Slice the movements array to get the last 4 items
+  const handleOpenEditExpenseModal = (expense) => {
+    setSelectedExpense(expense);
+    setIsEditModalVisible(true);
+  };
+
+  const handleCloseEditExpenseModal = () => {
+    setIsEditModalVisible(false);
+  };
+
+  const handleSaveExpense = (updatedExpense) => {
+    const updatedMovements = movements.map((movement) =>
+      movement.id === updatedExpense.id ? updatedExpense : movement
+    );
+    setMovements(updatedMovements);
+    handleCloseEditExpenseModal();
+  };
+
+  const handleDeleteExpense = (expenseId) => {
+    const updatedMovements = movements.filter((movement) => movement.id !== expenseId);
+    setMovements(updatedMovements);
+    handleCloseEditExpenseModal();
+  };
+
   const recentMovements = movements.slice(-4);
 
   return (
@@ -112,6 +136,14 @@ const Home = () => {
           visible={isAddExpenseModalVisible}
           onClose={handleCloseAddExpenseModal}
           onSave={handleAddExpense}
+          categories={categories}
+        />
+        <EditExpenseModal
+          visible={isEditModalVisible}
+          onClose={handleCloseEditExpenseModal}
+          onSave={handleSaveExpense}
+          onDelete={handleDeleteExpense}
+          expense={selectedExpense}
           categories={categories}
         />
       </View>
@@ -136,7 +168,7 @@ const Home = () => {
         data={recentMovements}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => <Movements item={item} />}
+        renderItem={({ item }) => <Movements item={item} onPress={() => handleOpenEditExpenseModal(item)} />}
       />
     </View>
   );
@@ -149,9 +181,8 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flexDirection: "row",
-    alignItems: "left",
-    borderWidth: 1,
-
+    alignItems: "center",
+    marginVertical: 10,
   },
   title: {
     fontSize: 19,

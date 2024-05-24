@@ -1,13 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function Movements({ item }) {
+export default function Movements({ item, onPress }) {
     return (
-        <View style={styles.container}>
-            <Text>{item.title}</Text>
-            <Text>{item.value}</Text>
-            <Text>{item.date}</Text>
-        </View>
+        <TouchableOpacity onPress={() => onPress(item)}>
+            <View style={styles.container}>
+                <Text>{item.title}</Text>
+                <Text>{item.value}</Text>
+                <Text>{item.date}</Text>
+            </View>
+        </TouchableOpacity>
     );
 }
 
