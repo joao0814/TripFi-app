@@ -6,6 +6,7 @@ import Balance from "../../components/Balance";
 import CategoryModal from "../../components/CategoryModal";
 import Button from "../../components/Button";
 import CategoryItem from "../../components/CategoryItem";
+import AddExpenseModal from "../../components/AddExpenseModal"; // Import the new modal
 
 const initialMovements = [
   {
@@ -34,6 +35,7 @@ const initialMovements = [
 const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [isAddExpenseModalVisible, setIsAddExpenseModalVisible] = useState(false); // State for Add Expense Modal
   const [categories, setCategories] = useState([]);
   const [movements, setMovements] = useState(initialMovements);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -73,21 +75,45 @@ const Home = () => {
     setCategories(updatedCategories);
   };
 
+  const handleOpenAddExpenseModal = () => {
+    setIsAddExpenseModalVisible(true);
+  };
+
+  const handleCloseAddExpenseModal = () => {
+    setIsAddExpenseModalVisible(false);
+  };
+
+  const handleAddExpense = (expense) => {
+    setMovements((prevMovements) => [
+      ...prevMovements,
+      { ...expense, id: prevMovements.length + 1, type: 0 },
+    ]);
+    handleCloseAddExpenseModal();
+  };
+
+  // Slice the movements array to get the last 4 items
+  const recentMovements = movements.slice(-4);
+
   return (
     <View style={styles.container}>
       <Header name="João" />
       <Balance saldo="15.820,52" gastos="- 250" />
 
-      <View styles={styles.buttons}>
-        <View styles={styles.buttons}>
-          <Button title="Criar Categoria" onPress={handleOpenModal} />
-          <CategoryModal
-            visible={isModalVisible}
-            onClose={handleCloseModal}
-            onCreate={handleCreateCategory}
-            initialCategory={selectedCategory}
-          />
-        </View>
+      <View style={styles.buttons}>
+        <Button title="Criar Categoria" onPress={handleOpenModal} />
+        <Button title="Adicionar Despesa" onPress={handleOpenAddExpenseModal} />
+        <CategoryModal
+          visible={isModalVisible}
+          onClose={handleCloseModal}
+          onCreate={handleCreateCategory}
+          initialCategory={selectedCategory}
+        />
+        <AddExpenseModal
+          visible={isAddExpenseModalVisible}
+          onClose={handleCloseAddExpenseModal}
+          onSave={handleAddExpense}
+          categories={categories}
+        />
       </View>
 
       <Text style={styles.title}>Categorias</Text>
@@ -107,7 +133,7 @@ const Home = () => {
       <Text style={styles.title}>Suas últimas movimentações</Text>
       <FlatList
         style={styles.list}
-        data={movements}
+        data={recentMovements}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => <Movements item={item} />}
@@ -122,10 +148,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   buttons: {
+    flexDirection: "row",
     alignItems: "left",
     borderWidth: 1,
-    borderColor: "#000",
-    backgroundColor: "#000",
+
   },
   title: {
     fontSize: 19,
