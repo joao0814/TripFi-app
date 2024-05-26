@@ -8,11 +8,7 @@ const AddExpenseModal = ({ visible, onClose, onCreate, categories }) => {
     const [selectedCategory, setSelectedCategory] = useState(null);
 
     const handleCreateExpense = () => {
-        // Aqui você pode adicionar validações para garantir que os campos sejam preenchidos corretamente
-        // Por exemplo, verificar se o valor é um número válido e se a data está no formato correto
-        // Se tudo estiver correto, você pode chamar a função onCreate para criar a despesa
         onCreate({ title, value, date, category: selectedCategory });
-        // Limpar os campos após a criação da despesa
         setTitle("");
         setValue("");
         setDate("");

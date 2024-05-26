@@ -135,7 +135,7 @@ const Home = () => {
         <AddExpenseModal
           visible={isAddExpenseModalVisible}
           onClose={handleCloseAddExpenseModal}
-          onSave={handleAddExpense}
+          onCreate={handleAddExpense}
           categories={categories}
         />
         <EditExpenseModal
