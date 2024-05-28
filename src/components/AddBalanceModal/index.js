@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Modal, View, TextInput, Button, StyleSheet, Text } from 'react-native';
+import { Modal, View, StyleSheet, Text, Button } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 const AddBalanceModal = ({ visible, onClose, onSave }) => {
     const [value, setValue] = useState('');
@@ -17,10 +18,10 @@ const AddBalanceModal = ({ visible, onClose, onSave }) => {
             <View style={styles.modalOverlay}>
                 <View style={styles.modalContainer}>
                     <Text style={styles.title}>Adicionar Saldo</Text>
-                    <TextInput
+                    <TextInputMask
                         style={styles.input}
+                        type={'money'}
                         placeholder="Valor"
-                        keyboardType="numeric"
                         value={value}
                         onChangeText={setValue}
                     />

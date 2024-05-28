@@ -38,7 +38,7 @@ const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [isAddExpenseModalVisible, setIsAddExpenseModalVisible] = useState(false);
-  const [isAddBalanceModalVisible, setIsAddBalanceModalVisible] = useState(false);
+  const [isAddBalanceModalVisible, setIsAddBalanceModalVisible] = useState(false); // Estado para controlar a visibilidade do modal de adicionar saldo
   const [categories, setCategories] = useState([]);
   const [movements, setMovements] = useState(initialMovements);
   const [selectedCategory, setSelectedCategory] = useState(null);

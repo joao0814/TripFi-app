@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Modal, View, TextInput, Button, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native';
+import { Modal, View, StyleSheet, Text, FlatList, TouchableOpacity, Button, TextInput } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 
 const AddExpenseModal = ({ visible, onClose, onCreate, categories }) => {
     const [title, setTitle] = useState('');
@@ -35,17 +36,18 @@ const AddExpenseModal = ({ visible, onClose, onCreate, categories }) => {
                         value={title}
                         onChangeText={setTitle}
                     />
-                    <TextInput
+                    <TextInputMask
                         style={styles.input}
+                        type={'money'}
                         placeholder="Valor"
-                        keyboardType="numeric"
                         value={value}
                         onChangeText={setValue}
                     />
-                    <TextInput
+                    <TextInputMask
                         style={styles.input}
+                        type={'datetime'}
+                        options={{ format: 'DD/MM/YYYY' }}
                         placeholder="Data (DD/MM/AAAA)"
-                        keyboardType="numeric"
                         value={date}
                         onChangeText={setDate}
                     />
