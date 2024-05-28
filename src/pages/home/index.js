@@ -10,40 +10,30 @@ import AddExpenseModal from '../../components/AddExpenseModal';
 import EditExpenseModal from '../../components/EditExpenseModal';
 import AddBalanceModal from '../../components/AddBalanceModal';
 
-const initialMovements = [
-  {
-    id: 1,
-    title: 'Hotel Rio Branco',
-    value: 'R$ 850,00',
-    date: '10/09/2021',
-    type: 0, // despesa
-  },
-  {
-    id: 2,
-    title: 'Restaurante São José',
-    value: 'R$ 1.800,00',
-    date: '10/09/2021',
-    type: 0, // despesa
-  },
-  {
-    id: 3,
-    title: 'Taxi',
-    value: 'R$ 100,00',
-    date: '10/09/2021',
-    type: 0, // despesa
-  },
-];
-
 const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [isAddExpenseModalVisible, setIsAddExpenseModalVisible] = useState(false);
   const [isAddBalanceModalVisible, setIsAddBalanceModalVisible] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [movements, setMovements] = useState(initialMovements);
+  const [movements, setMovements] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [balance, setBalance] = useState(0); // Inicializando o saldo como zero
+
+  // Função para calcular o total das despesas
+  const totalExpenses = movements.reduce((total, movement) => {
+    if (movement.type === 0) { // Despesa
+      const value = parseFloat(movement.value.replace('R$', '').replace(/\./g, '').replace(',', '.'));
+      if (!isNaN(value)) {
+        return total + value;
+      }
+    }
+    return total;
+  }, 0);
+
+  // Função para calcular o saldo
+  const updatedBalance = balance - totalExpenses;
 
   const handleOpenModal = () => {
     setSelectedCategory(null);
@@ -75,7 +65,7 @@ const Home = () => {
     const updatedCategories = categories.filter(
       (category) => category.id !== categoryId
     );
-    setCategories(updatedCategories);
+    setCategories(updatedCategories); ''
   };
 
   const handleOpenAddExpenseModal = () => {
@@ -135,7 +125,7 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <Header name="João" />
-      <Balance saldo={balance.toFixed(2).replace('.', ',')} gastos="-250" />
+      <Balance saldo={updatedBalance.toFixed(2).replace('.', ',')} gastos={totalExpenses.toFixed(2).replace('.', ',')} />
 
       <View style={styles.buttons}>
         <Button title="+ Saldo" onPress={handleOpenAddBalanceModal} />
@@ -204,7 +194,7 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: 10
   },
   title: {
     fontSize: 19,

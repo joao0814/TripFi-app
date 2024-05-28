@@ -6,9 +6,8 @@ const AddBalanceModal = ({ visible, onClose, onSave }) => {
     const [value, setValue] = useState('');
 
     const handleAddBalance = () => {
-        // Removendo caracteres não numéricos e convertendo para um número
-        const numericValue = parseFloat(value.replace(/[^\d.,]/g, '').replace(',', '.'));
-        console.log("Valor do saldo:", numericValue);
+        const maskedValue = value.replace('R$', '').replace(/\s/g, '').replace('.', '').replace(',', '.');
+        const numericValue = parseFloat(maskedValue);
         if (!isNaN(numericValue)) {
             onSave(numericValue);
         }
