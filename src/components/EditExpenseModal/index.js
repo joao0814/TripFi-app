@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, View, TextInput, Button, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { Modal, View, TextInput, Button, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native';
 
 const EditExpenseModal = ({ visible, onClose, onSave, onDelete, expense, categories }) => {
     const [title, setTitle] = useState('');
     const [value, setValue] = useState('');
     const [date, setDate] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [isCategoryModalVisible, setIsCategoryModalVisible] = useState(false);
 
     useEffect(() => {
         if (expense) {
@@ -17,130 +16,113 @@ const EditExpenseModal = ({ visible, onClose, onSave, onDelete, expense, categor
         }
     }, [expense]);
 
-    const handleSave = () => {
-        const updatedExpense = {
-            ...expense,
-            title,
-            value,
-            date,
-            category: selectedCategory,
-        };
-        onSave(updatedExpense);
+    const handleSaveExpense = () => {
+        onSave({ ...expense, title, value, date, category: selectedCategory });
+        onClose();
     };
 
-    const handleDelete = () => {
-        onDelete(expense.id);
-    };
-
-    const handleOpenCategoryModal = () => {
-        setIsCategoryModalVisible(true);
-    };
-
-    const handleCloseCategoryModal = () => {
-        setIsCategoryModalVisible(false);
-    };
-
-    const handleSelectCategory = (category) => {
-        setSelectedCategory(category);
-        handleCloseCategoryModal();
-    };
+    const renderCategoryItem = ({ item }) => (
+        <TouchableOpacity
+            style={[styles.categoryItem, selectedCategory === item.id && styles.selectedCategory]}
+            onPress={() => setSelectedCategory(item.id)}
+        >
+            <Text>{item.name}</Text>
+        </TouchableOpacity>
+    );
 
     return (
-        <Modal
-            visible={visible}
-            animationType="slide"
-            transparent={true}
-            onRequestClose={onClose}
-        >
-            <View style={styles.modalView}>
-                <Text style={styles.title}>Editar Despesa</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Título"
-                    value={title}
-                    onChangeText={setTitle}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Valor"
-                    value={value}
-                    onChangeText={setValue}
-                    keyboardType="numeric"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Data"
-                    value={date}
-                    onChangeText={setDate}
-                />
-                <TouchableOpacity onPress={handleOpenCategoryModal} style={styles.input}>
-                    <Text>{selectedCategory ? selectedCategory.name : "Selecione uma Categoria"}</Text>
-                </TouchableOpacity>
-                <View style={styles.buttonContainer}>
-                    <Button title="Cancelar" onPress={onClose} />
-                    <Button title="Salvar" onPress={handleSave} />
-                    <Button title="Apagar" onPress={handleDelete} color="red" />
-                </View>
-            </View>
-            <Modal
-                visible={isCategoryModalVisible}
-                animationType="slide"
-                transparent={true}
-                onRequestClose={handleCloseCategoryModal}
-            >
-                <View style={styles.categoryModalView}>
+        <Modal visible={visible} transparent={true} animationType="slide">
+            <View style={styles.modalOverlay}>
+                <View style={styles.modalContainer}>
+                    <Text style={styles.title}>Editar Despesa</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Título"
+                        value={title}
+                        onChangeText={setTitle}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Valor"
+                        keyboardType="numeric"
+                        value={value}
+                        onChangeText={setValue}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Data (DD/MM/AAAA)"
+                        keyboardType="numeric"
+                        value={date}
+                        onChangeText={setDate}
+                    />
+                    <Text style={styles.categoryTitle}>Selecione uma categoria:</Text>
                     <FlatList
                         data={categories}
+                        renderItem={renderCategoryItem}
                         keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity onPress={() => handleSelectCategory(item)}>
-                                <Text style={styles.categoryItem}>{item.name}</Text>
-                            </TouchableOpacity>
-                        )}
+                        style={styles.categoryList}
                     />
-                    <Button title="Fechar" onPress={handleCloseCategoryModal} />
+                    <View style={styles.buttonRow}>
+                        <Button title="Salvar" onPress={handleSaveExpense} />
+                        <Button title="Deletar" onPress={() => onDelete(expense.id)} />
+                    </View>
+                    <Button title="Cancelar" onPress={onClose} />
                 </View>
-            </Modal>
+            </View>
         </Modal>
     );
 };
 
 const styles = StyleSheet.create({
-    modalView: {
+    modalOverlay: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)',
     },
-    categoryModalView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(255,255,255,0.9)',
+    modalContainer: {
+        width: '80%',
+        backgroundColor: '#fff',
+        borderRadius: 10,
         padding: 20,
+        alignItems: 'center',
     },
     title: {
-        fontSize: 18,
-        marginBottom: 10,
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 20,
     },
     input: {
-        width: 250,
-        padding: 10,
-        marginVertical: 5,
         borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 5,
-        backgroundColor: '#fff',
+        padding: 10,
+        marginBottom: 10,
+        width: '100%',
     },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '80%',
-        marginTop: 10,
+    categoryTitle: {
+        fontSize: 16,
+        marginBottom: 10,
+    },
+    categoryList: {
+        width: '100%',
+        maxHeight: 200,
+        marginBottom: 10,
     },
     categoryItem: {
         padding: 10,
-        fontSize: 16,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        marginBottom: 5,
+    },
+    selectedCategory: {
+        backgroundColor: '#007AFF',
+    },
+    buttonRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
     },
 });
 

@@ -1,34 +1,35 @@
-import React, { useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import Header from "../../components/Header";
-import Movements from "../../components/Movements";
-import Balance from "../../components/Balance";
-import CategoryModal from "../../components/CategoryModal";
-import Button from "../../components/Button";
-import CategoryItem from "../../components/CategoryItem";
-import AddExpenseModal from "../../components/AddExpenseModal";
-import EditExpenseModal from "../../components/EditExpenseModal";
+import React, { useState } from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import Header from '../../components/Header';
+import Movements from '../../components/Movements';
+import Balance from '../../components/Balance';
+import CategoryModal from '../../components/CategoryModal';
+import Button from '../../components/Button';
+import CategoryItem from '../../components/CategoryItem';
+import AddExpenseModal from '../../components/AddExpenseModal';
+import EditExpenseModal from '../../components/EditExpenseModal';
+import AddBalanceModal from '../../components/AddBalanceModal';
 
 const initialMovements = [
   {
     id: 1,
-    title: "Hotel Rio Branco",
-    value: "R$ 850,00",
-    date: "10/09/2021",
+    title: 'Hotel Rio Branco',
+    value: 'R$ 850,00',
+    date: '10/09/2021',
     type: 0, // despesa
   },
   {
     id: 2,
-    title: "Restaurante São José",
-    value: "R$ 1.800,00",
-    date: "10/09/2021",
+    title: 'Restaurante São José',
+    value: 'R$ 1.800,00',
+    date: '10/09/2021',
     type: 0, // despesa
   },
   {
     id: 3,
-    title: "Taxi",
-    value: "R$ 100,00",
-    date: "10/09/2021",
+    title: 'Taxi',
+    value: 'R$ 100,00',
+    date: '10/09/2021',
     type: 0, // despesa
   },
 ];
@@ -37,10 +38,12 @@ const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [isAddExpenseModalVisible, setIsAddExpenseModalVisible] = useState(false);
+  const [isAddBalanceModalVisible, setIsAddBalanceModalVisible] = useState(false);
   const [categories, setCategories] = useState([]);
   const [movements, setMovements] = useState(initialMovements);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedExpense, setSelectedExpense] = useState(null);
+  const [balance, setBalance] = useState(15820.52);
 
   const handleOpenModal = () => {
     setSelectedCategory(null);
@@ -53,13 +56,11 @@ const Home = () => {
 
   const handleCreateCategory = (newCategory) => {
     if (selectedCategory) {
-      // Editing existing category
       const updatedCategories = categories.map((category) =>
         category.id === newCategory.id ? newCategory : category
       );
       setCategories(updatedCategories);
     } else {
-      // Creating new category
       setCategories([...categories, newCategory]);
     }
     handleCloseModal();
@@ -116,16 +117,30 @@ const Home = () => {
     handleCloseEditExpenseModal();
   };
 
+  const handleOpenAddBalanceModal = () => {
+    setIsAddBalanceModalVisible(true);
+  };
+
+  const handleCloseAddBalanceModal = () => {
+    setIsAddBalanceModalVisible(false);
+  };
+
+  const handleAddBalance = (newBalance) => {
+    setBalance((prevBalance) => prevBalance + newBalance);
+    handleCloseAddBalanceModal();
+  };
+
   const recentMovements = movements.slice(-4);
 
   return (
     <View style={styles.container}>
       <Header name="João" />
-      <Balance saldo="15.820,52" gastos="- 250" />
+      <Balance saldo={balance.toFixed(2).replace('.', ',')} gastos="-250" />
 
       <View style={styles.buttons}>
-        <Button title="Criar Categoria" onPress={handleOpenModal} />
-        <Button title="Adicionar Despesa" onPress={handleOpenAddExpenseModal} />
+        <Button title="+ Saldo" onPress={handleOpenAddBalanceModal} />
+        <Button title="+ Categoria" onPress={handleOpenModal} />
+        <Button title="+ Despesa" onPress={handleOpenAddExpenseModal} />
         <CategoryModal
           visible={isModalVisible}
           onClose={handleCloseModal}
@@ -145,6 +160,11 @@ const Home = () => {
           onDelete={handleDeleteExpense}
           expense={selectedExpense}
           categories={categories}
+        />
+        <AddBalanceModal
+          visible={isAddBalanceModalVisible}
+          onClose={handleCloseAddBalanceModal}
+          onSave={handleAddBalance}
         />
       </View>
 
@@ -168,7 +188,9 @@ const Home = () => {
         data={recentMovements}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => <Movements item={item} onPress={() => handleOpenEditExpenseModal(item)} />}
+        renderItem={({ item }) => (
+          <Movements item={item} onPress={() => handleOpenEditExpenseModal(item)} />
+        )}
       />
     </View>
   );
@@ -177,18 +199,18 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   buttons: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginVertical: 10,
   },
   title: {
     fontSize: 19,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "#1e293b",
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#1e293b',
     marginTop: 32,
     marginStart: 14,
   },
