@@ -9,12 +9,16 @@ import CategoryItem from '../../components/CategoryItem';
 import AddExpenseModal from '../../components/AddExpenseModal';
 import EditExpenseModal from '../../components/EditExpenseModal';
 import AddBalanceModal from '../../components/AddBalanceModal';
+import EditCategoryModal from '../../components/EditCategoryModal';
+import CategoryDetails from '../../components/CategoryDetails';
 
 const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [isAddExpenseModalVisible, setIsAddExpenseModalVisible] = useState(false);
   const [isAddBalanceModalVisible, setIsAddBalanceModalVisible] = useState(false);
+  const [isEditCategoryModalVisible, setIsEditCategoryModalVisible] = useState(false);
+  const [isCategoryDetailsVisible, setIsCategoryDetailsVisible] = useState(false);
   const [categories, setCategories] = useState([]);
   const [movements, setMovements] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -61,11 +65,32 @@ const Home = () => {
     setIsModalVisible(true);
   };
 
+  const handleOpenEditCategoryModal = (category) => {
+    setSelectedCategory(category);
+    setIsEditCategoryModalVisible(true);
+  };
+
+  const handleCloseEditCategoryModal = () => {
+    setIsEditCategoryModalVisible(false);
+  };
+
+  const handleSaveCategory = (updatedCategory) => {
+    const updatedCategories = categories.map((category) =>
+      category.id === updatedCategory.id ? updatedCategory : category
+    );
+    setCategories(updatedCategories);
+    handleCloseEditCategoryModal();
+  };
+
   const handleDeleteCategory = (categoryId) => {
     const updatedCategories = categories.filter(
       (category) => category.id !== categoryId
     );
-    setCategories(updatedCategories); ''
+    setCategories(updatedCategories);
+    // Também exclua os movimentos associados a esta categoria, se necessário
+    const updatedMovements = movements.filter((movement) => movement.categoryId !== categoryId);
+    setMovements(updatedMovements);
+    handleCloseEditCategoryModal();
   };
 
   const handleOpenAddExpenseModal = () => {
@@ -79,7 +104,7 @@ const Home = () => {
   const handleAddExpense = (expense) => {
     setMovements((prevMovements) => [
       ...prevMovements,
-      { ...expense, id: prevMovements.length + 1, type: 0 },
+      { ...expense, id: prevMovements.length + 1, type: 0, categoryId: expense.categoryId },
     ]);
     handleCloseAddExpenseModal();
   };
@@ -120,6 +145,15 @@ const Home = () => {
     handleCloseAddBalanceModal();
   };
 
+  const handleOpenCategoryDetails = (category) => {
+    setSelectedCategory(category);
+    setIsCategoryDetailsVisible(true);
+  };
+
+  const handleCloseCategoryDetails = () => {
+    setIsCategoryDetailsVisible(false);
+  };
+
   const recentMovements = movements.slice(-4);
 
   return (
@@ -156,32 +190,48 @@ const Home = () => {
           onClose={handleCloseAddBalanceModal}
           onSave={handleAddBalance}
         />
+        <EditCategoryModal
+          visible={isEditCategoryModalVisible}
+          onClose={handleCloseEditCategoryModal}
+          category={selectedCategory}
+          onSave={handleSaveCategory}
+          onDelete={handleDeleteCategory}
+        />
       </View>
 
-      <Text style={styles.title}>Categorias</Text>
-      <FlatList
-        style={styles.list}
-        data={categories}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <CategoryItem
-            category={item}
-            onEdit={handleOpenEditModal}
-            onDelete={handleDeleteCategory}
+      {isCategoryDetailsVisible ? (
+        <CategoryDetails
+          category={selectedCategory}
+          movements={movements}
+          onClose={handleCloseCategoryDetails}
+        />
+      ) : (
+        <>
+          <Text style={styles.title}>Categorias</Text>
+          <FlatList
+            style={styles.list}
+            data={categories}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <CategoryItem
+                category={item}
+                onSelect={handleOpenCategoryDetails}
+              />
+            )}
           />
-        )}
-      />
 
-      <Text style={styles.title}>Suas últimas movimentações</Text>
-      <FlatList
-        style={styles.list}
-        data={recentMovements}
-        keyExtractor={(item) => item.id.toString()}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <Movements item={item} onPress={() => handleOpenEditExpenseModal(item)} />
-        )}
-      />
+          <Text style={styles.title}>Suas últimas movimentações</Text>
+          <FlatList
+            style={styles.list}
+            data={recentMovements}
+            keyExtractor={(item) => item.id.toString()}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <Movements item={item} onPress={() => handleOpenEditExpenseModal(item)} />
+            )}
+          />
+        </>
+      )}
     </View>
   );
 };
@@ -194,7 +244,7 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 10
+    marginVertical: 10,
   },
   title: {
     fontSize: 19,

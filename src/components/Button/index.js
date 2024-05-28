@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
 
 const Button = ({ title, onPress, style }) => (
   <View style={styles.container}>
-    <View  style={styles.containerCard}>
+    <View style={styles.containerCard}>
       <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
         {/* Ícone ou conteúdo do botão aqui */}
       </TouchableOpacity>
@@ -15,16 +15,14 @@ const Button = ({ title, onPress, style }) => (
 const styles = StyleSheet.create({
   container: {
     // flex:1,
-    borderWidth: 1,
     alignItems: "flex-start",
   },
-  containerCard:{
-    borderWidth: 1,
-    justifyContent:'center',
-    alignItems:'center',
-    width:120,
-    margin:5,
-    padding:5
+  containerCard: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 120,
+    margin: 5,
+    padding: 5
   },
   button: {
     width: 60,

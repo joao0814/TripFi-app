@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { Modal, View, StyleSheet, Text, FlatList, TouchableOpacity, Button, TextInput } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-const AddExpenseModal = ({ visible, onClose, onCreate, categories }) => {
+AddExpenseModal = ({ visible, onClose, onCreate, categories }) => {
     const [title, setTitle] = useState('');
     const [value, setValue] = useState('');
     const [date, setDate] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
 
     const handleCreateExpense = () => {
-        onCreate({ title, value, date, category: selectedCategory });
+        onCreate({ title, value, date, categoryId: selectedCategory }); // Passando o categoryId ao criar a despesa
         setTitle('');
         setValue('');
         setDate('');
