@@ -38,12 +38,12 @@ const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [isAddExpenseModalVisible, setIsAddExpenseModalVisible] = useState(false);
-  const [isAddBalanceModalVisible, setIsAddBalanceModalVisible] = useState(false); // Estado para controlar a visibilidade do modal de adicionar saldo
+  const [isAddBalanceModalVisible, setIsAddBalanceModalVisible] = useState(false);
   const [categories, setCategories] = useState([]);
   const [movements, setMovements] = useState(initialMovements);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedExpense, setSelectedExpense] = useState(null);
-  const [balance, setBalance] = useState(15820.52);
+  const [balance, setBalance] = useState(0); // Inicializando o saldo como zero
 
   const handleOpenModal = () => {
     setSelectedCategory(null);
