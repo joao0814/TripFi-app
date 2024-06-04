@@ -1,19 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, View, StyleSheet, Text, FlatList, TouchableOpacity, Button, TextInput } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
-AddExpenseModal = ({ visible, onClose, onCreate, categories }) => {
+const AddExpenseModal = ({ visible, onClose, onCreate, categories }) => {
     const [title, setTitle] = useState('');
     const [value, setValue] = useState('');
     const [date, setDate] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
 
-    const handleCreateExpense = () => {
-        onCreate({ title, value, date, categoryId: selectedCategory }); // Passando o categoryId ao criar a despesa
-        setTitle('');
-        setValue('');
-        setDate('');
-        setSelectedCategory(null);
+    useEffect(() => {
+        setSelectedCategory(categories[0]?.id); // Seleciona a primeira categoria por padrão
+    }, [categories]);
+
+    const handleSaveExpense = () => {
+        if (title.trim() && value.trim() && date.trim() && selectedCategory) {
+            const newExpense = {
+                title,
+                value,
+                date,
+                categoryId: selectedCategory,
+            };
+            onCreate(newExpense);
+            setTitle('');
+            setValue('');
+            setDate('');
+            setSelectedCategory(null);
+        }
     };
 
     const renderCategoryItem = ({ item }) => (
@@ -29,7 +41,7 @@ AddExpenseModal = ({ visible, onClose, onCreate, categories }) => {
         <Modal visible={visible} transparent={true} animationType="slide">
             <View style={styles.modalOverlay}>
                 <View style={styles.modalContainer}>
-                    <Text style={styles.title}>Criar Despesa</Text>
+                    <Text style={styles.title}>Adicionar Despesa</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="Título"
@@ -59,7 +71,7 @@ AddExpenseModal = ({ visible, onClose, onCreate, categories }) => {
                         style={styles.categoryList}
                     />
                     <View style={styles.buttonRow}>
-                        <Button title="Criar" onPress={handleCreateExpense} />
+                        <Button title="Salvar" onPress={handleSaveExpense} />
                         <Button title="Cancelar" onPress={onClose} />
                     </View>
                 </View>

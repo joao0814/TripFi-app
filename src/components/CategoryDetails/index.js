@@ -18,11 +18,14 @@ const CategoryDetails = ({ category, movements, onClose }) => {
         setSelectedMovement(null); // Limpa o estado do item selecionado após a exclusão
     };
 
+    // Filtra os movimentos pertencentes à categoria selecionada
+    const categoryMovements = movements.filter((movement) => movement.categoryId === category.id);
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{category.name}</Text>
             <FlatList
-                data={movements}
+                data={categoryMovements}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <TouchableOpacity onPress={() => handleSelectMovement(item.id)}>
@@ -47,7 +50,7 @@ const CategoryDetails = ({ category, movements, onClose }) => {
                     <View style={styles.deleteModal}>
                         <Text style={styles.deleteModalText}>Selecione o item a ser excluído:</Text>
                         <FlatList
-                            data={movements}
+                            data={categoryMovements}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }) => (
                                 <TouchableOpacity onPress={() => handleSelectMovement(item.id)}>
