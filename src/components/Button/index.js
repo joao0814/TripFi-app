@@ -1,11 +1,16 @@
 import React from "react";
 import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome'; // ou qualquer outra biblioteca de ícones que você esteja usando
 
-const Button = ({ title, onPress, style }) => (
+const Button = ({ title, onPress, style, iconName }) => (
   <View style={styles.container}>
     <View style={styles.containerCard}>
       <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
-        {/* Ícone ou conteúdo do botão aqui */}
+        {iconName && (
+          <Text>
+            <Icon name={iconName} size={18} color="#000" />
+          </Text>
+        )}
       </TouchableOpacity>
       <Text style={styles.buttonText}>{title}</Text>
     </View>
@@ -14,7 +19,6 @@ const Button = ({ title, onPress, style }) => (
 
 const styles = StyleSheet.create({
   container: {
-    // flex:1,
     alignItems: "flex-start",
   },
   containerCard: {
@@ -33,11 +37,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 5, // Espaço entre o botão e o texto
   },
-
   buttonText: {
     color: "#000", // cor do texto
     fontSize: 16, // tamanho do texto
-    textAlign: "left", // Alinhar o texto ao centro
+    textAlign: "center", // Alinhar o texto ao centro
   },
 });
 

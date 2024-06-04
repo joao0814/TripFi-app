@@ -16,7 +16,8 @@
     "react-native": "0.74.1",
     "react-native-color-picker": "^0.6.0",
     "react-native-masked-text": "^1.13.0",
-    "react-native-paper": "^5.12.3"
+    "react-native-paper": "^5.12.3",
+    "react-native-vector-icons": "^10.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

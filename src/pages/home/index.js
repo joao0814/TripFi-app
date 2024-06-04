@@ -162,9 +162,9 @@ const Home = () => {
       <Balance saldo={updatedBalance.toFixed(2).replace('.', ',')} gastos={totalExpenses.toFixed(2).replace('.', ',')} />
 
       <View style={styles.buttons}>
-        <Button title="+ Saldo" onPress={handleOpenAddBalanceModal} />
-        <Button title="+ Categoria" onPress={handleOpenModal} />
-        <Button title="+ Despesa" onPress={handleOpenAddExpenseModal} />
+        <Button title="+ Saldo" onPress={handleOpenAddBalanceModal} iconName="dollar" />
+        <Button title="+ Categoria" onPress={handleOpenModal} iconName="list" />
+        <Button title="+ Despesa" onPress={handleOpenAddExpenseModal} iconName="shopping-cart" />
         <CategoryModal
           visible={isModalVisible}
           onClose={handleCloseModal}
