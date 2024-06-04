@@ -8,7 +8,7 @@ const Button = ({ title, onPress, style, iconName }) => (
       <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
         {iconName && (
           <Text>
-            <Icon name={iconName} size={18} color="#000" />
+            <Icon name={iconName} size={18} color="#000000" />
           </Text>
         )}
       </TouchableOpacity>

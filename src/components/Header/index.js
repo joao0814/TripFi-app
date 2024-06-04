@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Image,
   StatusBar,
   StyleSheet,
   Text,
@@ -8,18 +9,22 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
- const statusBarHeight = StatusBar.currentHeight
-   ? StatusBar.currentHeight + 22 : 64;
+const statusBarHeight = StatusBar.currentHeight
+  ? StatusBar.currentHeight + 22 : 64;
 
-export default function Header({name}) {
+export default function Header({ name }) {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.username}>{name}</Text>
-
-        <TouchableOpacity activeOpacity={0.9} style={styles.buttonUser}>
-          <Feather name="user" size={27} color="#fff" />
-        </TouchableOpacity>
+        <View>
+          <Image source={require('../../../assets/tripfi.png')} style={{ width: 130, height: 50 }} />
+        </View>
+        <View style={styles.box}>
+          <TouchableOpacity activeOpacity={0.9} style={styles.buttonUser}>
+            <Feather name="user" size={27} color="#ffffff" />
+          </TouchableOpacity>
+          <Text style={styles.username}>Olá, {name}</Text>
+        </View>
       </View>
     </View>
   );
@@ -27,25 +32,28 @@ export default function Header({name}) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgb(100, 116, 139)",
+    backgroundColor: "rgb(37, 53, 78)",
     paddingTop: statusBarHeight,
-    flexDirection: "row",
     paddingStart: 16,
     paddingEnd: 16,
     paddingBottom: 44,
+    height: 40 + statusBarHeight + 84,
   },
 
   content: {
     flex: 1,
-    alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
   },
-
+  box: {
+    alignItems: "center",
+  },
   username: {
     fontSize: 20,
-    color: "#fff",
+    color: "#ffffff",
     fontWeight: "bold",
+    paddingTop: 15,
   },
 
   buttonUser: {
@@ -55,6 +63,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 44 / 2,
-   
+
   },
 });
