@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "AppTeste",
-    "slug": "AppTeste",
+    "name": "TripFi-App",
+    "slug": "TripFi-App",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
