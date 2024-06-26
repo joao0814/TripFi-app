@@ -158,7 +158,7 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      <Header name="João" />
+      <Header />
       <Balance saldo={updatedBalance.toFixed(2).replace('.', ',')} gastos={totalExpenses.toFixed(2).replace('.', ',')} />
 
       <View style={styles.buttons}>
