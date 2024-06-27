@@ -39,7 +39,6 @@ const CategoryDetails = ({ category, movements, onClose }) => {
                 <TouchableOpacity style={styles.button} onPress={onClose}>
                     <Text style={styles.buttonText}>Fechar</Text>
                 </TouchableOpacity>
-
             </View>
 
             {/* Modal for confirming delete */}
@@ -75,9 +74,16 @@ const CategoryDetails = ({ category, movements, onClose }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
+        height: '45%',
+        width: '90%',
+        alignSelf: 'center',
+        justifyContent: 'center',
         padding: 20,
+        backgroundColor: '#f2f2f2',
+        borderColor: '#bbbbbb',
+        borderStyle: 'solid',
+        borderWidth: 2, // Adicione esta linha para definir a largura da borda
+        borderRadius: 10,
     },
     title: {
         fontSize: 22,
@@ -94,7 +100,7 @@ const styles = StyleSheet.create({
     },
     button: {
         padding: 10,
-        backgroundColor: '#1e90ff',
+        backgroundColor: 'rgb(37, 53, 78)',
         borderRadius: 5,
         alignItems: 'center',
         flex: 1,

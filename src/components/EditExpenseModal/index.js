@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, View, StyleSheet, Text, FlatList, TouchableOpacity, Button, TextInput } from 'react-native';
+import { Modal, View, StyleSheet, Text, FlatList, TouchableOpacity, TextInput } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
 const EditExpenseModal = ({ visible, onClose, onSave, onDelete, expense, categories }) => {
@@ -65,9 +65,14 @@ const EditExpenseModal = ({ visible, onClose, onSave, onDelete, expense, categor
                         style={styles.categoryList}
                     />
                     <View style={styles.buttonRow}>
-                        <Button title="Salvar" onPress={handleSaveExpense} />
-                        <Button title="Deletar" onPress={() => onDelete(expense.id)} />
+                        <TouchableOpacity onPress={() => onDelete(expense.id)} style={styles.button}>
+                            <Text style={{ color: '#fff', fontSize: 16 }}>Deletar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleSaveExpense} style={styles.button}>
+                            <Text style={{ color: '#fff', fontSize: 16 }}>Salvar</Text>
+                        </TouchableOpacity>
                     </View>
+
                 </View>
             </View>
         </Modal>
@@ -118,12 +123,25 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     selectedCategory: {
-        backgroundColor: '#007AFF',
+        borderColor: 'rgb(37, 53, 78)',
+        borderWidth: 3, // Define a largura da borda
+        borderRadius: 8,
+    },
+    button: {
+        height: 30,
+        width: 120,
+        backgroundColor: 'rgb(37, 53, 78)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
     },
     buttonRow: {
         flexDirection: 'row',
+        marginTop: 10,
+        flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
+        borderRadius: 20,
     },
 });
 

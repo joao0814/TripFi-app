@@ -71,8 +71,12 @@ const AddExpenseModal = ({ visible, onClose, onCreate, categories }) => {
                         style={styles.categoryList}
                     />
                     <View style={styles.buttonRow}>
-                        <Button title="Cancelar" onPress={onClose} />
-                        <Button title="Salvar" onPress={handleSaveExpense} />
+                        <TouchableOpacity onPress={onClose} style={[styles.button]}>
+                            <Text style={{ color: '#fff', fontSize: 16 }}>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleSaveExpense} style={[styles.button]}>
+                            <Text style={{ color: '#fff', fontSize: 16 }}>Salvar</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -124,12 +128,25 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     selectedCategory: {
-        backgroundColor: '#007AFF',
+        borderColor: 'rgb(37, 53, 78)',
+        borderWidth: 3, // Define a largura da borda
+        borderRadius: 8,
+    },
+    button: {
+        height: 30,
+        width: 120,
+        backgroundColor: 'rgb(37, 53, 78)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
     },
     buttonRow: {
         flexDirection: 'row',
+        marginTop: 10,
+        flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
+        borderRadius: 20,
     },
 });
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, View, StyleSheet, Text, Button } from 'react-native';
+import { Modal, View, StyleSheet, Text, Button, TouchableOpacity } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
 const AddBalanceModal = ({ visible, onClose, onSave }) => {
@@ -27,8 +27,12 @@ const AddBalanceModal = ({ visible, onClose, onSave }) => {
                         onChangeText={setValue}
                     />
                     <View style={styles.buttonRow}>
-                        <Button title="Cancelar" onPress={onClose} />
-                        <Button title="Adicionar" onPress={handleAddBalance} />
+                        <TouchableOpacity onPress={onClose} style={styles.button}>
+                            <Text style={{ color: '#fff', fontSize: 16 }}>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleAddBalance} style={styles.button}>
+                            <Text style={{ color: '#fff', fontSize: 16 }}>Adicionar</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -63,10 +67,21 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         width: '100%',
     },
+    button: {
+        height: 30,
+        width: 120,
+        backgroundColor: 'rgb(37, 53, 78)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+    },
     buttonRow: {
+        flexDirection: 'row',
+        marginTop: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '100%',
+        borderRadius: 20,
     },
 });
 

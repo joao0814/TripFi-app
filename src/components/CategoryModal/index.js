@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { Modal, View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 
 const CategoryModal = ({ visible, onClose, onCreate, initialCategory }) => {
     const [categoryName, setCategoryName] = useState('');
@@ -37,9 +37,13 @@ const CategoryModal = ({ visible, onClose, onCreate, initialCategory }) => {
                         onChangeText={setCategoryName}
                         placeholder="Digite o nome da categoria"
                     />
-                    <View style={styles.buttonContainer}>
-                        <Button title="Cancelar" onPress={handleCancel} />
-                        <Button title="Criar" onPress={handleCreate} />
+                    <View style={styles.buttonRow}>
+                        <TouchableOpacity onPress={handleCancel} style={styles.button}>
+                            <Text style={{ color: '#fff', fontSize: 16 }}>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleCreate} style={styles.button}>
+                            <Text style={{ color: '#fff', fontSize: 16 }}>Criar</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -75,8 +79,17 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         backgroundColor: '#fff',
     },
-    buttonContainer: {
+    button: {
+        height: 30,
+        width: 120,
+        backgroundColor: 'rgb(37, 53, 78)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+    },
+    buttonRow: {
         flexDirection: 'row',
+        marginTop: 10,
         justifyContent: 'space-between',
         width: '100%',
     },
