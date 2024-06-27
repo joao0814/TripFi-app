@@ -3,31 +3,41 @@ import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } fr
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Importe o AsyncStorage correto
 
 export default function Register({ navigation }) {
+    // State para armazenar os valores dos campos de entrada
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    // Função para lidar com o registro do usuário
     const handleRegister = async () => {
+        // Verifica se as senhas coincidem
         if (password !== confirmPassword) {
             Alert.alert('Passwords do not match');
             return;
         }
 
         try {
+            // Tenta obter os dados do usuário do AsyncStorage pelo email
             const userData = await AsyncStorage.getItem(email);
             if (userData) {
+                // Se já existir um usuário com o email, exibe um alerta
                 Alert.alert('User already exists');
             } else {
+                // Se o usuário não existir, cria um objeto de usuário com email e senha
                 const user = { email, password };
+                // Salva os dados do usuário no AsyncStorage
                 await AsyncStorage.setItem(email, JSON.stringify(user));
+                // Exibe um alerta de sucesso e navega para a tela de login
                 Alert.alert('User registered successfully');
                 navigation.navigate('Login');
             }
         } catch (error) {
+            // Captura e exibe erros ocorridos durante o processo
             console.error(error);
         }
     };
 
+    // Componente de registro
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Registre-se</Text>
@@ -51,6 +61,7 @@ export default function Register({ navigation }) {
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
             />
+            {/* Linha de botões para registro e volta para a tela de login */}
             <View style={styles.buttonRow}>
                 <TouchableOpacity onPress={handleRegister} style={[styles.button, { marginRight: 15 }]}>
                     <Text style={{ color: '#fff', fontSize: 16 }}>Registre-se</Text>
@@ -63,6 +74,7 @@ export default function Register({ navigation }) {
     );
 }
 
+// Estilos para o componente Register
 const styles = StyleSheet.create({
     container: {
         flex: 1,
