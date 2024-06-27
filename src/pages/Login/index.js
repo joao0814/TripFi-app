@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, Image } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, Image, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Importe o AsyncStorage correto
 
 export default function Login({ navigation, onLoginSuccess }) {
@@ -43,17 +43,15 @@ export default function Login({ navigation, onLoginSuccess }) {
                 value={password}
                 onChangeText={setPassword}
             />
-            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
-                <View style={{ width: 130, marginRight: 15 }}>
-                    <Button title="Entrar" onPress={handleLogin} />
-                </View>
-                <View style={{ width: 130 }}>
-                    <Button
-                        title="Registrar-se"
-                        onPress={() => navigation.navigate('Register')}
-                    />
-                </View>
+            <View style={styles.buttonRow}>
+                <TouchableOpacity onPress={handleLogin} style={[styles.button, { marginRight: 15 }]}>
+                    <Text style={{ color: '#fff', fontSize: 16 }}>Entrar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Register')} style={styles.button}>
+                    <Text style={{ color: '#fff', fontSize: 16 }}>Registrar-se</Text>
+                </TouchableOpacity>
             </View>
+
         </View>
     );
 }
@@ -75,6 +73,23 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginBottom: 12,
         paddingHorizontal: 8,
-        backgroundColor: '#dddddd'
+        backgroundColor: '#dddddd',
+        borderRadius: 8,
+    },
+    buttonRow: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginTop: 10,
+        width: '80%',
+        borderRadius: 20,
+    },
+    button: {
+        height: 30,
+        width: 120,
+        backgroundColor: 'rgb(37, 53, 78)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
     },
 });

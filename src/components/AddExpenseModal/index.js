@@ -106,10 +106,11 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 1,
         borderColor: '#ccc',
-        borderRadius: 5,
         padding: 10,
         marginBottom: 10,
         width: '100%',
+        borderRadius: 8,
+        backgroundColor: '#dddddd',
     },
     categoryTitle: {
         fontSize: 16,

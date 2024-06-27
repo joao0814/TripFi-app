@@ -118,7 +118,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#ccc",
         marginBottom: 20,
-        backgroundColor: "#fff",
+        backgroundColor: '#dddddd',
+        borderRadius: 8,
     },
     buttonContainer: {
         flexDirection: "row",

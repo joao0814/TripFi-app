@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Importe o AsyncStorage correto
 
 export default function Register({ navigation }) {
@@ -51,16 +51,13 @@ export default function Register({ navigation }) {
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
             />
-            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
-                <View style={{ width: 130, marginRight: 15 }}>
-                    <Button title="Registre-se" onPress={handleRegister} />
-                </View>
-                <View style={{ width: 130 }}>
-                    <Button
-                        title="Voltar"
-                        onPress={() => navigation.navigate('Login')}
-                    />
-                </View>
+            <View style={styles.buttonRow}>
+                <TouchableOpacity onPress={handleRegister} style={[styles.button, { marginRight: 15 }]}>
+                    <Text style={{ color: '#fff', fontSize: 16 }}>Registre-se</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.button}>
+                    <Text style={{ color: '#fff', fontSize: 16 }}>Voltar</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -76,6 +73,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         marginBottom: 20,
         textAlign: 'center',
+        fontWeight: 'bold',
     },
     input: {
         height: 40,
@@ -83,5 +81,23 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginBottom: 12,
         paddingHorizontal: 8,
+        borderRadius: 8,
+        backgroundColor: '#dddddd',
+    },
+    buttonRow: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginTop: 10,
+        width: '80%',
+        borderRadius: 20,
+    },
+    button: {
+        height: 30,
+        width: 120,
+        backgroundColor: 'rgb(37, 53, 78)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
     },
 });
