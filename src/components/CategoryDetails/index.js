@@ -39,9 +39,7 @@ const CategoryDetails = ({ category, movements, onClose }) => {
                 <TouchableOpacity style={styles.button} onPress={onClose}>
                     <Text style={styles.buttonText}>Fechar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => setIsDeleteModalVisible(true)}>
-                    <Text style={styles.buttonText}>Excluir Item</Text>
-                </TouchableOpacity>
+
             </View>
 
             {/* Modal for confirming delete */}

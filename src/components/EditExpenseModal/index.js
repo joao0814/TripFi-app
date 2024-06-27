@@ -68,7 +68,6 @@ const EditExpenseModal = ({ visible, onClose, onSave, onDelete, expense, categor
                         <Button title="Salvar" onPress={handleSaveExpense} />
                         <Button title="Deletar" onPress={() => onDelete(expense.id)} />
                     </View>
-                    <Button title="Cancelar" onPress={onClose} />
                 </View>
             </View>
         </Modal>

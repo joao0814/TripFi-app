@@ -43,14 +43,13 @@ export default function Login({ navigation, onLoginSuccess }) {
                 value={password}
                 onChangeText={setPassword}
             />
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                <View style={{ width: 130, marginRight: 10 }}>
-                    <Button title="Login" onPress={handleLogin} />
+            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+                <View style={{ width: 130, marginRight: 15 }}>
+                    <Button title="Entrar" onPress={handleLogin} />
                 </View>
                 <View style={{ width: 130 }}>
                     <Button
-
-                        title="Register"
+                        title="Registrar-se"
                         onPress={() => navigation.navigate('Register')}
                     />
                 </View>
@@ -69,7 +68,6 @@ const styles = StyleSheet.create({
     image: {
         alignItems: "center",
         paddingBottom: 20,
-
     },
     input: {
         height: 40,

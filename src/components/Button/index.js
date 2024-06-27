@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
-import Icon from 'react-native-vector-icons/FontAwesome'; // ou qualquer outra biblioteca de ícones que você esteja usando
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Button = ({ title, onPress, style, iconName }) => (
   <View style={styles.container}>
@@ -33,15 +33,15 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: "rgba(200, 200, 200, 0.5)", // cinza claro meio transparente
+    backgroundColor: "#d8d8d8",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 5, // Espaço entre o botão e o texto
+    marginBottom: 5,
   },
   buttonText: {
-    color: "#000", // cor do texto
-    fontSize: 16, // tamanho do texto
-    textAlign: "center", // Alinhar o texto ao centro
+    color: "#000000",
+    fontSize: 16,
+    textAlign: "center",
   },
 });
 

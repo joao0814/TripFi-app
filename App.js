@@ -12,7 +12,12 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    checkAuthentication();
+    const initializeAuth = async () => {
+      // Limpar dados de autenticação ao iniciar o aplicativo
+      await AsyncStorage.removeItem('isLoggedIn');
+      checkAuthentication();
+    };
+    initializeAuth();
   }, []);
 
   const checkAuthentication = async () => {
@@ -29,11 +34,6 @@ export default function App() {
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
     AsyncStorage.setItem('isLoggedIn', 'true');
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    AsyncStorage.removeItem('isLoggedIn');
   };
 
   return (

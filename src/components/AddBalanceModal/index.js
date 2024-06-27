@@ -27,8 +27,8 @@ const AddBalanceModal = ({ visible, onClose, onSave }) => {
                         onChangeText={setValue}
                     />
                     <View style={styles.buttonRow}>
-                        <Button title="Adicionar" onPress={handleAddBalance} />
                         <Button title="Cancelar" onPress={onClose} />
+                        <Button title="Adicionar" onPress={handleAddBalance} />
                     </View>
                 </View>
             </View>

@@ -1,16 +1,8 @@
 import React from "react";
-import {
-  Image,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
-const statusBarHeight = StatusBar.currentHeight
-  ? StatusBar.currentHeight + 22 : 64;
+const statusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 22 : 64;
 
 export default function Header({ name }) {
   return (
@@ -62,7 +54,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 44 / 2,
-
   },
 });
-

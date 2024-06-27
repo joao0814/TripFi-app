@@ -30,7 +30,7 @@ export default function Register({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Register</Text>
+            <Text style={styles.title}>Registre-se</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -51,11 +51,17 @@ export default function Register({ navigation }) {
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
             />
-            <Button title="Register" onPress={handleRegister} />
-            <Button
-                title="Back to Login"
-                onPress={() => navigation.navigate('Login')}
-            />
+            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+                <View style={{ width: 130, marginRight: 15 }}>
+                    <Button title="Registre-se" onPress={handleRegister} />
+                </View>
+                <View style={{ width: 130 }}>
+                    <Button
+                        title="Voltar"
+                        onPress={() => navigation.navigate('Login')}
+                    />
+                </View>
+            </View>
         </View>
     );
 }

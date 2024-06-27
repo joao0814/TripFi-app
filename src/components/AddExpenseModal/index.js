@@ -71,8 +71,8 @@ const AddExpenseModal = ({ visible, onClose, onCreate, categories }) => {
                         style={styles.categoryList}
                     />
                     <View style={styles.buttonRow}>
-                        <Button title="Salvar" onPress={handleSaveExpense} />
                         <Button title="Cancelar" onPress={onClose} />
+                        <Button title="Salvar" onPress={handleSaveExpense} />
                     </View>
                 </View>
             </View>
