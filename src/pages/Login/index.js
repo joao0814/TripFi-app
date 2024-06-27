@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Importe o AsyncStorage correto
 
 export default function Login({ navigation, onLoginSuccess }) {
@@ -27,7 +27,9 @@ export default function Login({ navigation, onLoginSuccess }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Login</Text>
+            <View style={styles.image}>
+                <Image source={require('../../../assets/tripfi2.png')} style={{ width: 230, height: 90 }} />
+            </View>
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -41,11 +43,18 @@ export default function Login({ navigation, onLoginSuccess }) {
                 value={password}
                 onChangeText={setPassword}
             />
-            <Button title="Login" onPress={handleLogin} />
-            <Button
-                title="Register"
-                onPress={() => navigation.navigate('Register')}
-            />
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <View style={{ width: 130, marginRight: 10 }}>
+                    <Button title="Login" onPress={handleLogin} />
+                </View>
+                <View style={{ width: 130 }}>
+                    <Button
+
+                        title="Register"
+                        onPress={() => navigation.navigate('Register')}
+                    />
+                </View>
+            </View>
         </View>
     );
 }
@@ -55,17 +64,19 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         padding: 20,
+        backgroundColor: '#ffffff',
     },
-    title: {
-        fontSize: 24,
-        marginBottom: 20,
-        textAlign: 'center',
+    image: {
+        alignItems: "center",
+        paddingBottom: 20,
+
     },
     input: {
         height: 40,
-        borderColor: 'gray',
+        borderColor: '#dddddd',
         borderWidth: 1,
         marginBottom: 12,
         paddingHorizontal: 8,
+        backgroundColor: '#dddddd'
     },
 });
